@@ -1,20 +1,23 @@
-import express from "express";
-import { json } from "body-parser";
+import express from 'express';
+import { json } from 'body-parser';
+import { errorHandler } from './middlewares/error-handler';
 import {
   currentUserRouter,
   signinRouter,
   signoutRouter,
-  signupRouter
-} from "./routes";
+  signupRouter,
+} from './routes';
 
 const app = express();
 app.use(json());
 
-app.use("/api/users", currentUserRouter);
-app.use("/api/users", signinRouter);
-app.use("/api/users", signoutRouter);
-app.use("/api/users", signupRouter);
+app.use('/api/users', currentUserRouter);
+app.use('/api/users', signinRouter);
+app.use('/api/users', signoutRouter);
+app.use('/api/users', signupRouter);
+
+app.use(errorHandler);
 
 app.listen(3000, () => {
-  console.log("Auth service listening on port 3000!");
+  console.log('Auth service listening on port 3000!');
 });
