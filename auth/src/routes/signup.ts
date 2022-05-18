@@ -38,7 +38,8 @@ router.post(
         id: user.id,
         email: user.email,
       },
-      'zxcv'
+      // @ts-ignore
+      process.env.JWT_KEY
     );
 
     // Store it on session object
