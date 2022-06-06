@@ -22,19 +22,6 @@ function signup() {
     await doRequest();
   };
 
-  const renderError = () => {
-    return errors.length > 0 ? (
-      <div className="alert alert-danger">
-        <h4>Ooops...</h4>
-        <ul className="my-0">
-          {errors.map((err, index) => (
-            <li key={index}>{err.message}</li>
-          ))}
-        </ul>
-      </div>
-    ) : null;
-  };
-
   return (
     <form onSubmit={onSubmit}>
       <h1>Sign Up</h1>
