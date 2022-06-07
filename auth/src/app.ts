@@ -1,8 +1,7 @@
 import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
-import { errorHandler } from './middlewares/error-handler';
-import { NotFoundError } from './errors';
+import { errorHandler, NotFoundError } from '@marschen-tickets/common';
 import cookieSession from 'cookie-session';
 import {
   currentUserRouter,
