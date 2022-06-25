@@ -7,7 +7,7 @@ import {
   currentUser,
 } from '@marschen-tickets/common';
 import cookieSession from 'cookie-session';
-import { createTicketRouter } from './routes';
+import { createTicketRouter, showTicketRouter } from './routes';
 
 const app = express();
 app.set('trust proxy', true);
@@ -21,6 +21,7 @@ app.use(
 app.use(currentUser);
 
 app.use('/api/tickets', createTicketRouter);
+app.use('/api/tickets', showTicketRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();
