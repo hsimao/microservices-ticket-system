@@ -1,8 +1,13 @@
 import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
-import { errorHandler, NotFoundError } from '@marschen-tickets/common';
+import {
+  errorHandler,
+  NotFoundError,
+  currentUser,
+} from '@marschen-tickets/common';
 import cookieSession from 'cookie-session';
+import { createTicketRouter } from './routes';
 
 const app = express();
 app.set('trust proxy', true);
@@ -13,6 +18,9 @@ app.use(
     secure: process.env.NODE_ENV !== 'test',
   })
 );
+app.use(currentUser);
+
+app.use('/api/tickets', createTicketRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();
