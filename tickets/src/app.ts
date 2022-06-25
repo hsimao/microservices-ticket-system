@@ -11,6 +11,7 @@ import {
   createTicketRouter,
   showTicketRouter,
   showListTicketRouter,
+  updateTicketRouter,
 } from './routes';
 
 const app = express();
@@ -27,6 +28,7 @@ app.use(currentUser);
 app.use('/api/tickets', createTicketRouter);
 app.use('/api/tickets', showListTicketRouter);
 app.use('/api/tickets', showTicketRouter);
+app.use('/api/tickets', updateTicketRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();
