@@ -5,6 +5,8 @@ declare global {
   function signin(): string[];
 }
 
+jest.mock('../nats-wrapper');
+
 let mongo: any;
 
 beforeAll(async () => {
