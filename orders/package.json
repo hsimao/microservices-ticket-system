@@ -28,7 +28,7 @@
     "typescript": "^4.6.3"
   },
   "dependencies": {
-    "@marschen-tickets/common": "^1.0.7",
+    "@marschen-tickets/common": "^1.0.8",
     "@types/cookie-session": "^2.0.44",
     "@types/jsonwebtoken": "^8.5.8",
     "cookie-session": "^2.0.0",
