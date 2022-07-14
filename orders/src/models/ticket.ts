@@ -48,7 +48,7 @@ ticketSchema.statics.build = (attrs: TicketAttrs) => {
 // 判斷訂單狀態是否建立 Created
 // 判斷訂單狀態是否保留中 AwaitingPayment
 // 判斷訂單狀態是否已完成 Complete
-ticketSchema.statics.isReserved = async function () {
+ticketSchema.methods.isReserved = async function () {
   const existingOrder = await Order.findOne({
     ticket: this,
     status: {
