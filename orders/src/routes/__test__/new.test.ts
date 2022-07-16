@@ -1,55 +1,33 @@
-import mongoose from 'mongoose';
 import request from 'supertest';
 import { app } from '../../app';
-import { Order, OrderStatus } from '../../models/order';
 import { Ticket } from '../../models/ticket';
+import { Order, OrderStatus } from '../../models/order';
 
-it('returns an error if the ticket does not exist', async () => {
-  const ticketId = new mongoose.Types.ObjectId().toHexString();
+it('marks an order as cancelled', async () => {
+  // create a ticket with Ticket Model
+  const ticket = Ticket.build({
+    title: 'concert',
+    price: 20,
+  });
 
-  await request(app)
+  await ticket.save();
+
+  const user = global.signin();
+
+  const { body: order } = await request(app)
     .post('/api/orders')
-    .set('Cookie', global.signin())
+    .set('Cookie', user)
     .send({
-      ticketId,
+      ticketId: ticket.id,
     })
-    .expect(404);
-});
-
-it('returns an error if the ticket is already reserved', async () => {
-  const ticket = Ticket.build({
-    title: 'concert',
-    price: 20,
-  });
-  await ticket.save();
-
-  const order = Order.build({
-    ticket,
-    userId: '12345',
-    status: OrderStatus.Created,
-    expiresAt: new Date(),
-  });
-  await order.save();
-
-  await request(app)
-    .post('/api/orders')
-    .set('Cookie', global.signin())
-    .send({ ticketId: ticket.id })
-    .expect(400);
-});
-
-it('reserves a ticket', async () => {
-  const ticket = Ticket.build({
-    title: 'concert',
-    price: 20,
-  });
-  await ticket.save();
-
-  await request(app)
-    .post('/api/orders')
-    .set('Cookie', global.signin())
-    .send({ ticketId: ticket.id })
     .expect(201);
-});
 
-it.todo('emits an order created event');
+  await request(app)
+    .delete(`/api/orders/${order.id}`)
+    .set('Cookie', user)
+    .send()
+    .expect(204);
+
+  const updatedOrder = await Order.findById(order.id);
+  expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled);
+});
