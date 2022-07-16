@@ -42,7 +42,7 @@ it('returns an error if one user tries to fetch another users order', async () =
     .expect(201);
 
   const otherUser = global.signin();
-  const { body: fetchedOrder } = await request(app)
+  await request(app)
     .get(`/api/orders/${order.id}`)
     .set('Cookie', otherUser)
     .send()
